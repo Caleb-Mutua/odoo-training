@@ -4,7 +4,7 @@
     'category': 'Real Esate/Estate',
     'sequence': 15,
     'summary': 'A real estate advertisement module',
-    'license': 'LGPL-3'
+    'license': 'LGPL-3',
     'depends': [
         'base',
     ],
