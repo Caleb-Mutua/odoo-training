@@ -4,9 +4,8 @@
     'category': 'Real Estate/Estate',
     'summary': 'A real estate advertisement module',
     'license': 'LGPL-3',
-    'applicaton':True,
-    'depends': [
-        'base',
-    ],
+    'installable': True,
+    'application':True,
+    'depends': ['base'],
    
 }
