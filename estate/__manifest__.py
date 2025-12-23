@@ -7,5 +7,9 @@
     'installable': True,
     'application':True,
     'depends': ['base'],
+    'data': ['demo/demo.xml',
+             'security/res_groups.xml',
+             'security/ir.model.access.csv',
+            ],
    
 }
