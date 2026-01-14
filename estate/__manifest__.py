@@ -4,12 +4,15 @@
     'category': 'Real Estate/Estate',
     'summary': 'A real estate advertisement module',
     'license': 'LGPL-3',
+    'Author': 'Cayleb Mutua',
     'installable': True,
     'application':True,
     'depends': ['base'],
     'data': ['demo/demo.xml',
              'security/res_groups.xml',
              'security/ir.model.access.csv',
+             'views/estate_property_views.xml',
+             'views/estate_menu.xml',
             ],
    
 }
