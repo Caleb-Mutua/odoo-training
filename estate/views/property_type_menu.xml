@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+   
+       <menuitem id="root_property_type_menu" name="Property Type">
+       <menuitem id="first_level_property_type_menu" name= "Settings" >
+       <menuitem id="estate_menu_property_types" name="Property Types"  action="estate_property_type_action"/>
+       </menuitem>
+       </menuitem>
+  
+</odoo>
