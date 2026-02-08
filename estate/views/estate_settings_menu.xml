@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+   <menuitem
+      id="estate_menu_settings"
+      name="Settings"
+      parent="root_estate_menu"
+      sequence="100"
+   />
+
+</odoo>
