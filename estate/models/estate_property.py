@@ -3,9 +3,25 @@ from dateutil.relativedelta import relativedelta
 
 
 class Estateproperty(models.Model):
-  _name = "estate_property"
+  _name = "estate.property"
   _description = "Real estate property"
 
+  property_type_id = fields.Many2one(
+        "estate.property.type",
+        string="Property Type"
+    )
+
+  buyer_id = fields.Many2one(
+        "res.partner",
+        string="Buyer",
+        copy=False
+    )
+
+  salesperson_id = fields.Many2one(
+        "res.users",
+        string="Salesperson",
+        default=lambda self: self.env.user
+    )
   
   name = fields.Char(required=True )
   description = fields.Text()

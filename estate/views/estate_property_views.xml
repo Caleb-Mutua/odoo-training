@@ -5,10 +5,11 @@
       <!-- LIST VIEW -->
         <record id="estate_property_list_view" model="ir.ui.view">
             <field name="name">estate.property.list</field>
-            <field name="model">estate_property</field>
+            <field name="model">estate.property</field>
             <field name="arch" type="xml">
                 <list>
                     <field name="name"/>
+                    <field name="property_type_id"/>
                     <field name= "description"/>
                     <field name= "postcode"/>
                     <field name= "date_availability"/>
@@ -30,13 +31,18 @@
      <!-- FORM VIEW -->
         <record id="estate_property_form_view" model="ir.ui.view">
             <field name="name">estate.property.form</field>
-            <field name="model">estate_property</field>
+            <field name="model">estate.property</field>
             <field name="arch" type="xml">
                 <form>
                     <sheet>
                         <h1>
                           <field name="name" placeholder="Property name"/>
                         </h1>
+
+                        <group>
+                            <field name="name"/>
+                            <field name="property_type_id"/>
+                        </group>
 
                         <group>
                             <field name="active"/>
@@ -62,10 +68,18 @@
                             </group>
                         </group>
 
-                        <group>
-                            <field name= "description"/>
-                        </group>
+                         <notebook>
+                            <page string="Description">
+                                 <field name="description"/>
+                            </page>
 
+                            <page string="Sales Info">
+                              <group>
+                                  <field name="salesperson_id"/>
+                                  <field name="buyer_id"/>
+                               </group>
+                            </page>
+                        </notebook>
                     </sheet>
                 </form>
             </field>
@@ -74,10 +88,11 @@
     <!--SEARCH VIEW-->
         <record id="estate_property_search_view" model="ir.ui.view">
             <field name="name">estate.property.view.search</field>
-            <field name="model">estate_property</field>
+            <field name="model">estate.property</field>
             <field name="arch" type="xml">
                 <search>
                     <field name="name"/>
+                    <field name="property_type_id"/>
                     <field name="postcode"/>
                     <field name="expected_price"/>
                     <field name="bedrooms"/>
@@ -88,8 +103,10 @@
                     
                     <separator/>
                     
-                    <group expand="|" string="Group By">
-                    <filter string="postcode" name="postcode" context="{'group_by':'postcode'}"/>
+                    <group expand="0" string="Group By">
+                   
+                    <filter string="Postcode" name="group_by_postcode" context="{'group_by':'postcode'}"/>
+                    <filter string= "property Type" name="group_by_property_type" context="{'group_by':'property_type_id'}"/>
                     </group>
                 </search>
             </field>
@@ -97,7 +114,7 @@
     <!--ACTION-->
         <record id="estate_property_action" model="ir.actions.act_window">
           <field name="name">Real Estate</field>
-          <field name="res_model">estate_property</field>
+          <field name="res_model">estate.property</field>
           <field name="view_mode">list,form</field>
         </record>
    </data>

@@ -7,9 +7,6 @@
             <field name="arch" type="xml">
                 <list>
                    <field name= "name"/>
-                   
-                   
-
                 </list>
             </field>    
         </record>
@@ -29,10 +26,6 @@
                             <group>
                                 <field name= "name"/>
     
-                            </group>
-                            
-                            <group>
-                                
                             </group>
                         </group>
                     </sheet>
