@@ -82,11 +82,9 @@
                             <page string="Offers">
                                  <field name="offer_ids">
                                      <list editable="bottom">
-                                         <group>
                                             <field name="price" width="100" />
                                             <field name="partner_id" width="200" />
                                             <field name="status" width="100" />
-                                         </group>
                                      </list>
                                  </field>
                             </page>
