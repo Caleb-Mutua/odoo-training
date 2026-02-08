@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-  <record id="id1" model="estate_property">
+  <record id="id1" model="estate.property">
     <field name="name">Big Villa</field>
     <field name="description">A nice and big villa</field>
     <field name="postcode">12345</field>
@@ -15,7 +15,7 @@
     <field name="garden_orientation">south</field>
   </record>
 
-  <record id="id2" model="estate_property">
+  <record id="id2" model="estate.property">
     <field name="name">Trailer home</field>
     <field name="description">Home in a trailer park</field>
     <field name="postcode">54321</field>
