@@ -3,3 +3,5 @@ access_estate_property_user,estate_property user,model_estate_property,base.grou
 access_estate_property_admin,estate_property admin,model_estate_property,estate.estate_admin,1,1,1,1
 access_estate_property_type_user,estate_property_type user,model_estate_property_type,base.group_user,1,0,0,0
 access_estate_property_type_admin, model_estate_property_type admin,model_estate_property_type,estate.estate_admin,1,1,1,1
+access_estate_property_offer_user,access_estate_property_offer user,model_estate_property_offer,base.group_user,1,0,0,0
+access_estate_property_offer_admin,access_estate_property_offer admin,model_estate_property_offer,estate.estate_admin,1,1,1,1
