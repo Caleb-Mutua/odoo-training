@@ -11,14 +11,14 @@
     'data': ['demo/demo.xml',
              'security/res_groups.xml',
              'security/ir.model.access.csv',
-             'views/estate_property_views.xml',
              'views/estate_menu.xml',
              'views/estate_settings_menu.xml',
              'views/property_type_menu.xml',
-             "views/property_tag_menu.xml",
+             'views/estate_property_views.xml',
              "views/estate_property_type_views.xml",
              "views/estate_property_offers_views.xml",
              "views/estate_property_tags_views.xml",
+             "views/property_tag_menu.xml",
              
             ],
    

@@ -41,16 +41,12 @@
                         </h1>
 
                         <group>
-                            <field name="name"/>
+                            
                             <field name="property_type_id"/>
                             <field name="tag_ids" widget="many2many_tags"/>
 
                         </group>
 
-                        <group>
-                            <field name="active"/>
-                            <field name= "state"/>
-                        </group>
                         
                         <group>
                             <group>
@@ -58,22 +54,27 @@
                                 <field name= "date_availability"/>
                                 <field name="expected_price"/>
                                 <field name="selling_price"/>
-                                <field name="bedrooms"/>
-                                <field name="living_area"/>
+
                             </group>
 
                             <group>
-                                <field name= "garage"/>
-                                <field name= "garden"/>
-                                <field name= "garden_area"/>
                                 <field name= "garden_orientation"/>
                                 <field name= "facades"/>
+                                <field name="active"/>
+                                <field name= "state"/>
                             </group>
                         </group>
 
                          <notebook>
                             <page string="Description">
-                                 <field name="description"/>
+                                <group>
+                                   <field name="description"/>
+                                   <field name="bedrooms"/>
+                                   <field name="living_area"/>
+                                   <field name= "garage"/>
+                                   <field name= "garden"/>
+                                   <field name= "garden_area"/>
+                                </group>
                             </page>
 
                             <page string="Sales Info">
@@ -84,7 +85,7 @@
                             </page>
                             <page string="Offers">
                                  <field name="offer_ids">
-                                     <list editable="bottom">
+                                     <list >
                                             <field name="price" width="100" />
                                             <field name="partner_id" width="200" />
                                             <field name="status" width="100" />
