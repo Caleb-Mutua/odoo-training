@@ -1,12 +1,18 @@
-from odoo import models, fields
+from odoo import api, models, fields
 from dateutil.relativedelta import relativedelta
 
 
 class Estateproperty(models.Model):
   _name = "estate.property"
   _description = "Real estate property"
-
   
+  total_area = fields.Float(string="Total Area (m²)", compute="_compute_total_area",store=True,)
+  
+  @api.depends("living_area", "garden_area")
+  def _compute_total_area(self):
+    for record in self:
+        record.total_area = record.living_area + record.garden_area
+
   
   name = fields.Char(required=True , string='Property Name')
   description = fields.Text()
@@ -15,11 +21,11 @@ class Estateproperty(models.Model):
   expected_price = fields.Float(required=True)
   selling_price = fields.Float(readonly= True)
   bedrooms = fields.Integer(default= 2,copy=False)
-  living_area = fields.Integer(string='Living Area')
+  living_area = fields.Integer(string='Living Area (sqm)')
   facades = fields.Integer()
   garage = fields.Boolean()
   garden = fields.Boolean()
-  garden_area = fields.Integer(string='Garden Area')
+  garden_area = fields.Integer(string='Garden Area (sqm)')
   garden_orientation = fields.Selection([
         ('north', 'North'),
         ('south', 'South'),
