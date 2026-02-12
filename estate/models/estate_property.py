@@ -7,11 +7,21 @@ class Estateproperty(models.Model):
   _description = "Real estate property"
   
   total_area = fields.Float(string="Total Area (m²)", compute="_compute_total_area",store=True,)
+  best_price = fields.Float(string="Best Offer",compute="_compute_best_price",store=True,)
+
   
   @api.depends("living_area", "garden_area")
+  
   def _compute_total_area(self):
     for record in self:
         record.total_area = record.living_area + record.garden_area
+        
+  @api.depends("offer_ids.price")
+  
+  def _compute_best_price(self):
+    for property in self:
+      offers = property.offer_ids.mapped("price")
+      property.best_price = max(offers) if offers else 0.0
 
   
   name = fields.Char(required=True , string='Property Name')
