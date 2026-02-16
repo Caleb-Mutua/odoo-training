@@ -24,9 +24,16 @@
                         <field name="partner_id"/>
                         <field name="status"/>
                         <field name="property_id"/>
+                        <field name="property_type_id"/>
                     </group>
                 </sheet>
             </form>
         </field>
+    </record>
+
+    <record id="estate_property_offer_action" model="ir.actions.act_window">
+        <field name="name">offers</field>
+        <field name="res_model">estate.property.offer</field>
+        <field name="view_mode">list,form</field>
     </record>
 </odoo>

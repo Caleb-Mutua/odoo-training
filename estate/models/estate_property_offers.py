@@ -24,5 +24,12 @@ class EstatePropertyOffer(models.Model):
         ondelete="cascade",
         
     )
+    property_type_id= fields.Many2one(
+        "estate.property.type",
+        string="Property Type",
+        related="property_id.property_type_id",
+        store=True,
+        readonly=True,
+    )
     
     

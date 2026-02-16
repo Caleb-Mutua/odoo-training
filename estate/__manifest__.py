@@ -19,6 +19,7 @@
              "views/estate_property_offers_views.xml",
              "views/estate_property_tags_views.xml",
              "views/property_tag_menu.xml",
+             "views/property_offers_menu.xml",
              
             ],
    

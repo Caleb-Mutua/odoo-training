@@ -1,0 +1,9 @@
+<odoo>
+   <menuitem
+       id="menu_estate_property_offer"
+       name="offers"
+       parent="first_level_menu"
+       action="estate_property_offer_action"
+       sequence="20"
+   />
+</odoo>
