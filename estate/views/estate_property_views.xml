@@ -90,10 +90,10 @@
                                  <field name="offer_ids">
                                      <list >
                                             <field name="price" width="100" />
-                                            <field name="partner_id" width="200" />
-                                            <field name="status" width="100" />
-
-
+                                            <field name="partner_id" width="200"/>
+                                            <field name="validity" width="300"/>
+                                            <field name= "date_deadline" width="200"/>
+                                            <field name= "status" width="100"/>
                                      </list>
                                  </field>
                             </page>
