@@ -23,6 +23,26 @@ class Estateproperty(models.Model):
       offers = property.offer_ids.mapped("price")
       property.best_price = max(offers) if offers else 0.0
 
+  @api.onchange('garden')
+  def _onchange_garden(self):
+      for record in self:
+          if record.garden:
+             record.garden_area = 10
+             record.garden_orientation ='north'
+          else:
+             record.garden_area = 0
+             record.garden_orientation = False
+      
+  @api.onchange('date_availability')
+  def _onchange_date_availability(self):
+      for record in self:
+          return{
+              "warning":{
+                  "title":("Past Availabity Date"),
+                  "message":("The availability date is set before today.\n"
+                            "This may indicate the property is already available."),
+              }
+          }
   
   name = fields.Char(required=True , string='Property Name')
   description = fields.Text()
