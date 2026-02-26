@@ -39,7 +39,21 @@
                         <h1>
                           <field name="name" placeholder="Property name"/>
                         </h1>
+                        <header>
+                            <button name="action_sold"
+                                    string="Sold"
+                                    type="object"
+                                    class="btn-primary"
+                                    state="offer_accepted"/>
 
+                            <button name="action_cancel"
+                                    string="Cancel"
+                                    type="object"
+                                    class="btn-secondary"
+                                    state="new,offer_received,offer_accepted"/>
+
+                             <field name="state" widget="statusbar"/>
+                        </header>
                         <group>
                             
                             <field name="property_type_id"/>

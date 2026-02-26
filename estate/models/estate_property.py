@@ -1,5 +1,7 @@
 from odoo import api, models, fields
 from dateutil.relativedelta import relativedelta
+from odoo.exceptions import UserError
+
 
 
 class Estateproperty(models.Model):
@@ -43,7 +45,20 @@ class Estateproperty(models.Model):
                             "This may indicate the property is already available."),
               }
           }
-  
+  def action_cancel(self):
+      for record in self:
+          if record.state == 'sold':
+              raise UserError("A sold property cannot be canceled.")
+          record.state = 'canceled'
+          
+  def action_sold(self):
+      for record in self: 
+          if record.state == 'canceled':
+              raise UserError("A canceled property cannot be sold")
+          if record.state != 'offer_accepted':
+              raise UserError("A property can only be sold after accepting an offer.")
+          record.state = 'sold'
+          
   name = fields.Char(required=True , string='Property Name')
   description = fields.Text()
   postcode = fields.Char()
@@ -65,7 +80,7 @@ class Estateproperty(models.Model):
   active= fields.Boolean(default=True )
   state= fields.Selection([
     ('new', 'New'),
-    ('offer_recieved', 'Offer Accepted'),
+    ('offer_recieved', 'Offer Received'),
     ('offer_accepted','Offer Accepted'),
     ('sold','Sold'),
     ('canceled','Canceled')
