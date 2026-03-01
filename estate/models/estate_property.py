@@ -1,9 +1,7 @@
 from odoo import api, models, fields
 from dateutil.relativedelta import relativedelta
-from odoo.exceptions import UserError
-
-
-
+from odoo.exceptions import UserError , ValidationError
+from datetime import date
 class Estateproperty(models.Model):
   _name = "estate.property"
   _description = "Real estate property"
@@ -37,7 +35,7 @@ class Estateproperty(models.Model):
       
   @api.onchange('date_availability')
   def _onchange_date_availability(self):
-      for record in self:
+      if self.date_availability and self.date_availability < date.today():
           return{
               "warning":{
                   "title":("Past Availabity Date"),
@@ -59,12 +57,38 @@ class Estateproperty(models.Model):
               raise UserError("A property can only be sold after accepting an offer.")
           record.state = 'sold'
           
+  @api.constrains('expected_price')
+  def _check_expected_price(self):
+      for record in self:
+          if record.expected_price <= 0:
+              raise ValidationError("Expected price must be strictly positive.")
+ 
+  @api.constrains('selling_price')
+  def _check_selling_price(self):
+      for record in self:
+          if record.selling_price < 0:
+              raise ValidationError("Selling price must be positive.")       
+          
+  @api.constrains('selling_price','expected_price')
+  def _check_selling_price_threshold(self):
+      for record in self:
+          #skip validation if property is not sold yet
+          if not record.selling_price:
+              continue
+          #check 90% rule
+          min_allowed_price = record.expected_price * 0.9
+          if record.selling_price < min_allowed_price:
+              raise ValidationError(
+                  "The selling price cannot be lower than 90% of the expected price."
+              )          
+
+
   name = fields.Char(required=True , string='Property Name')
   description = fields.Text()
   postcode = fields.Char()
   date_availability = fields.Date(copy=False,default=lambda self: fields.Date.today() + relativedelta(months=3))
   expected_price = fields.Float(required=True)
-  selling_price = fields.Float(readonly= True)
+  selling_price = fields.Float(readonly=True)
   bedrooms = fields.Integer(default= 2,copy=False)
   living_area = fields.Integer(string='Living Area (sqm)')
   facades = fields.Integer()

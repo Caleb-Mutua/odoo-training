@@ -1,6 +1,6 @@
 from odoo import models, fields , api
 from dateutil.relativedelta import relativedelta
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError ,ValidationError
 
 class EstatePropertyOffer(models.Model):
     _name= "estate.property.offer"
@@ -54,6 +54,12 @@ class EstatePropertyOffer(models.Model):
             if offer.state == 'accepted':
                 raise UserError("You cannot refuse an accepted offer.")
             offer.state = 'refused'
+            
+    @api.constrains('price')   
+    def _check_price(self):
+        for record in self:
+            if record.price <= 0:
+                raise ValidationError("Offer price must be strictly positive.")
             
     price =fields.Float(string="Offer Price")
     status =fields.Selection(
