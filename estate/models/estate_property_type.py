@@ -10,7 +10,7 @@ class EstatePropertyType(models.Model):
     
     name=fields.Char(string='Name' , required=True)
     sequence = fields.Integer(default=10)
-    sequence = fields.Integer(default=10)
+  
     
     
     
