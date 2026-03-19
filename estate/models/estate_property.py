@@ -7,6 +7,7 @@ from odoo.exceptions import UserError
 class Estateproperty(models.Model):
   _name = "estate.property"
   _description = "Real estate property"
+  _order = "id desc"
   
   total_area = fields.Float(string="Total Area (m²)", compute="_compute_total_area",store=True,)
   best_price = fields.Float(string="Best Offer",compute="_compute_best_price",store=True,)
