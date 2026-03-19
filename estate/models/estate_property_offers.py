@@ -32,16 +32,16 @@ class EstatePropertyOffer(models.Model):
             property_rec = offer.property_id 
              
             # check if anotehr offer is already accepted
-            accepted_offer = property_rec.offer_ids.filtered(lambda o: o.status == 'accepted')
+            accepted_offer = property_rec.offer_ids.filtered(lambda o: o.state == 'accepted')
             if accepted_offer  and accepted_offer != offer:
                 raise UserError("Another offer has already been accepted fpr this property.")
             
             #Refuse all other offers
             other_offers = property_rec.offer_ids - offer
-            other_offers.write({'status':'refused'})
+            other_offers.write({'state':'refused'})
             
             #Accept this offer
-            offer.status ='accepted'
+            offer.state ='accepted'
             
             #Update the property
             property_rec.write({
@@ -57,7 +57,7 @@ class EstatePropertyOffer(models.Model):
             offer.state = 'refused'
             
     price =fields.Float(string="Offer Price")
-    status =fields.Selection(
+    state =fields.Selection(
         [
             ('accepted', 'Accepted'),
             ('refused', 'Refused'),
