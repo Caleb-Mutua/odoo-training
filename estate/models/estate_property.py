@@ -59,6 +59,11 @@ class Estateproperty(models.Model):
           if record.state != 'offer_accepted':
               raise UserError("A property can only be sold after accepting an offer.")
           record.state = 'sold'
+  @api.ondelete(at_uninstall=False)
+  def _check_property_state_before_delete(self):
+        for record in self:
+            if record.state not in ('new', 'cancelled'):
+                raise UserError("You can only delete properties that are New or Cancelled.")
           
   name = fields.Char(required=True , string='Property Name')
   description = fields.Text()
