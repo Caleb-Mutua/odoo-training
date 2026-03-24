@@ -8,6 +8,7 @@ class Estateproperty(models.Model):
   _name = "estate.property"
   _description = "Real estate property"
   _order = "id desc"
+  _inherit = ['mail.thread', 'mail.activity.mixin'] 
   
   total_area = fields.Float(string="Total Area (m²)", compute="_compute_total_area",store=True,)
   best_price = fields.Float(string="Best Offer",compute="_compute_best_price",store=True,)
@@ -65,7 +66,7 @@ class Estateproperty(models.Model):
             if record.state not in ('new', 'cancelled'):
                 raise UserError("You can only delete properties that are New or Cancelled.")
           
-  name = fields.Char(required=True , string='Property Name')
+  name = fields.Char(required=True , string='Property Name', tracking="1")
   description = fields.Text()
   postcode = fields.Char()
   date_availability = fields.Date(copy=False,default=lambda self: fields.Date.today() + relativedelta(months=3))
@@ -90,7 +91,7 @@ class Estateproperty(models.Model):
     ('offer_accepted','Offer Accepted'),
     ('sold','Sold'),
     ('canceled','Canceled')
-  ],required=True,copy=False,default='new')
+  ],required=True,copy=False,default='new',tracking="1")
   
   property_type_id = fields.Many2one("estate.property.type",string="Property Type")
   buyer_id = fields.Many2one("res.partner",string="Buyer",copy=False)
