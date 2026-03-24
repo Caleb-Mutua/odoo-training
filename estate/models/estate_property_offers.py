@@ -55,22 +55,20 @@ class EstatePropertyOffer(models.Model):
             if offer.state == 'accepted':
                 raise UserError("You cannot refuse an accepted offer.")
             offer.state = 'refused'
-    @api.model
-    def create(self, vals):
-        property_id = self.env['estate.property'].browse(vals.get('property_id'))
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            property_id = self.env['estate.property'].browse(vals.get('property_id'))
 
-        # 🔍 Check existing offers
-        existing_offers = property_id.offer_ids.mapped('price')
-        if existing_offers and vals.get('price') <= max(existing_offers):
-            raise UserError("The offer must be higher than the existing highest offer.")
+            highest_offer= max(property_id.offer_ids.mapped('price'),default=0)
+            if vals.get('price') <= highest_offer:
+               raise UserError("The offer must be higher than the existing highest offer.")
 
-        # ✅ Create offer
-        offer = super().create(vals)
-
-        # 🔄 Update property state
-        property_id.state = 'offer_recieved'
-
-        return offer
+        offers = super().create(vals_list)
+        
+        for offer in offers:
+            offer.property_id.state = 'offer_recieved'
+        return offers
             
     price =fields.Float(string="Offer Price")
     state =fields.Selection(
