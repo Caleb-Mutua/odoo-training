@@ -4,8 +4,8 @@ class ResUsers(models.Model):
     _inherit = 'res.users'
 
     property_ids = fields.One2many(
-        comodel_name='estate.property',  # related model
-        inverse_name='salesperson_id',   # field in estate.property pointing to user
+        comodel_name='estate.property',  
+        inverse_name='salesperson_id',  
         string='My Properties',
-        domain=[('state', '=', 'new')]   # only available properties
+        domain=[('state', '=', 'new')]   
     )

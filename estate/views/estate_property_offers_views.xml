@@ -40,13 +40,13 @@
                                 string="Accept" 
                                 type="object" 
                                 class="btn-success" 
-                                invisible="state != 'received'"/>
+                                 invisible="state != 'pending'"/>
                         <button icon="fa-times" 
                                 name= "action_refuse" 
                                 string="Refuse" 
                                 type="object" 
                                 class="btn-danger" 
-                                invisible="state != 'received'"/>
+                                 invisible="state != 'pending'"/>
                     </group>
                 </sheet>
             </form>

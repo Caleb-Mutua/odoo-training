@@ -1,6 +1,6 @@
 from odoo import models, fields , api
 from dateutil.relativedelta import relativedelta
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 class EstatePropertyOffer(models.Model):
     _name= "estate.property.offer"
@@ -31,30 +31,25 @@ class EstatePropertyOffer(models.Model):
         for offer in  self:
             property_rec = offer.property_id 
              
-            # check if anotehr offer is already accepted
-            accepted_offer = property_rec.offer_ids.filtered(lambda o: o.state == 'accepted')
-            if accepted_offer  and accepted_offer != offer:
-                raise UserError("Another offer has already been accepted fpr this property.")
+            existing = property_rec.offer_ids.filtered(lambda o: o.state == 'accepted')
+            if existing:
+                raise UserError("Only one offer can be accepted per property.")
             
-            #Refuse all other offers
-            other_offers = property_rec.offer_ids - offer
-            other_offers.write({'state':'refused'})
-            
-            #Accept this offer
             offer.state ='accepted'
             
-            #Update the property
+            other_offers = property_rec.offer_ids.filtered(lambda o: o.id != offer.id)
+            other_offers.write({'state':'refused'})
+            
             property_rec.write({
-                'buyer_id':offer.partner_id.id,
+                'state': 'sold',
                 'selling_price': offer.price,
-                'state': 'offer_accepted',
+                'buyer_id':offer.partner_id.id,
             })
             
     def action_refuse(self):
         for offer in self:
-            if offer.state == 'accepted':
-                raise UserError("You cannot refuse an accepted offer.")
             offer.state = 'refused'
+            
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
@@ -69,14 +64,22 @@ class EstatePropertyOffer(models.Model):
         for offer in offers:
             offer.property_id.state = 'offer_recieved'
         return offers
+    @api.constrains('state')
+    def _check_single_accepted(self):
+        for offer in self:
+            if offer.state == 'accepted':
+               accepted = offer.property_id.offer_ids.filtered(lambda o: o.state == 'accepted')
+               if len(accepted) > 1:
+                  raise ValidationError("Only one accepted offer is allowed per property.")
             
     price =fields.Float(string="Offer Price")
     state =fields.Selection(
         [
+            ('pending','Pending'),
             ('accepted', 'Accepted'),
             ('refused', 'Refused'),
         ],
-        string="Status",copy=False,
+        string="Status",copy=False,default='pending'
     )
     partner_id=fields.Many2one(
         'res.partner',

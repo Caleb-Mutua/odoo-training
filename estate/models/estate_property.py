@@ -1,6 +1,6 @@
 from odoo import api, models, fields
 from dateutil.relativedelta import relativedelta
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 
 
@@ -39,14 +39,27 @@ class Estateproperty(models.Model):
       
   @api.onchange('date_availability')
   def _onchange_date_availability(self):
-      for record in self:
-          return{
-              "warning":{
-                  "title":("Past Availabity Date"),
-                  "message":("The availability date is set before today.\n"
+      for rec in self:
+          if not rec.date_availability:
+              return
+          today = fields.Date.context_today(self)
+          
+          if rec.date_availability < today:
+              return{
+                  "warning":{
+                      "title":("Past Availabity Date"),
+                      "message":("The availability date is set before today.\n"
                             "This may indicate the property is already available."),
               }
           }
+  
+  @api.constrains('date_availability')
+  def _check_date_availability(self):
+      for rec in self:
+          if rec.date_availability:
+              today = fields.Date.context_today(self)
+              if rec.date_availability < today:
+                  raise ValidationError("Availability date cannot be in the past.")
   def action_cancel(self):
       for record in self:
           if record.state == 'sold':
